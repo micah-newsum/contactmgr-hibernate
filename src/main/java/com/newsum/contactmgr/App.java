@@ -1,4 +1,4 @@
-package com.newsum;
+package com.newsum.contactmgr;
 
 /**
  * Hello world!
