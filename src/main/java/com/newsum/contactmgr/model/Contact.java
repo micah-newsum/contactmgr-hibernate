@@ -24,11 +24,12 @@ public class Contact
     //Default constructor for JPA
     public Contact(){}
 
-    public Contact(String firstName, String lastName, String email, long phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
+    public Contact(ContactBuilder contactBuilder)
+    {
+        this.firstName = contactBuilder.firstName;
+        this.lastName = contactBuilder.lastName;
+        this.email = contactBuilder.email;
+        this.phone = contactBuilder.phone;
     }
 
     public int getId() {
@@ -68,6 +69,37 @@ public class Contact
 
     public String toString() {
         return String.format("%s %s (%d)", firstName, lastName, id);
+    }
+
+    public static class ContactBuilder
+    {
+        private String firstName;
+        private String lastName;
+        private String email;
+        private long phone;
+
+        public ContactBuilder(String firstName, String lastName)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        public ContactBuilder withEmail(String email)
+        {
+            this.email = email;
+            return this;
+        }
+
+        public ContactBuilder withPhone(long phone)
+        {
+            this.phone = phone;
+            return this;
+        }
+
+        public Contact build()
+        {
+            return new Contact(this);
+        }
     }
 }
 
