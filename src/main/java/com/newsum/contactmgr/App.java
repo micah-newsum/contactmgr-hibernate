@@ -46,6 +46,11 @@ public class App {
 
         // Display list of contacts after the update
         fetchAllContacts().stream().forEach(System.out::println);
+
+        contact = findById(33);
+        if (contact != null) {
+            delete(contact);
+        }
     }
 
     private static List<Contact> fetchAllContacts()
@@ -113,5 +118,23 @@ public class App {
         //Close the session
         session.close();
         return id;
+    }
+
+    private static void delete(Contact contact)
+    {
+        //Open a session
+        Session session = sessionFactory.openSession();
+
+        //Begin a transaction
+        session.beginTransaction();
+
+        //Use the session to save teh contact
+        session.delete(contact);
+
+        //Commit the transaction
+        session.getTransaction().commit();
+
+        //Close the session
+        session.close();
     }
 }
