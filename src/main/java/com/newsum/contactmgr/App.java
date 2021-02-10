@@ -30,9 +30,21 @@ public class App {
                 .withPhone(5622346959L)
                 .build();
 
-        save(contact);
+        int id = save(contact);
 
         //Display list of contacts
+        fetchAllContacts().stream().forEach(System.out::println);
+
+        //Get the persisted object
+        contact = findById(id);
+
+        //Update the contact
+        contact.setFirstName("Beatrice");
+
+        // Persist the changes
+        update(contact);
+
+        // Display list of contacts after the update
         fetchAllContacts().stream().forEach(System.out::println);
     }
 
@@ -51,7 +63,40 @@ public class App {
         return contacts;
     }
 
-    private static void save(Contact contact)
+    private static Contact findById(int id)
+    {
+        //Open a session
+        Session session = sessionFactory.openSession();
+
+        //Retrieve persistent object (or null if not found)
+        Contact contact = session.get(Contact.class,id);
+
+        //Close session
+        session.close();
+
+        //Retrieve the object
+        return contact;
+    }
+
+    private static void update(Contact contact)
+    {
+        //Open a session
+        Session session = sessionFactory.openSession();
+
+        //Begin a transaction
+        session.beginTransaction();
+
+        //Use the session to update the contact
+        session.update(contact);
+
+        //Commit the transaction
+        session.getTransaction().commit();
+
+        //Close session
+        session.close();
+    }
+
+    private static int save(Contact contact)
     {
         //Open a session
         Session session = sessionFactory.openSession();
@@ -60,12 +105,13 @@ public class App {
         session.beginTransaction();
 
         //Use the session to save teh contact
-        session.save(contact);
+        int id = (int) session.save(contact);
 
         //Commit the transaction
         session.getTransaction().commit();
 
         //Close the session
         session.close();
+        return id;
     }
 }
