@@ -67,8 +67,15 @@ public class Contact
         this.phone = phone;
     }
 
+    @Override
     public String toString() {
-        return String.format("%s %s (%d)", firstName, lastName, id);
+        return "Contact{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                '}';
     }
 
     public static class ContactBuilder
